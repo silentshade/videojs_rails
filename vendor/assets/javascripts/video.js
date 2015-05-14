@@ -7316,11 +7316,17 @@ vjs.TextTrack.prototype.onError = function(err){
 // Parse the WebVTT text format for cue times.
 // TODO: Separate parser into own class so alternative timed text formats can be used. (TTML, DFXP)
 vjs.TextTrack.prototype.parseCues = function(srcContent) {
-  var cue, time, text,
+  var cue, time, text, firstLineIndex,
       lines = srcContent.split('\n'),
       line = '', id;
 
-  for (var i=1, j=lines.length; i<j; i++) {
+  if (lines[0] === 'WEBVTT') {
+    firstLineIndex = 2;
+  } else {
+    firstLineIndex = 0;
+  }
+
+  for (var i=firstLineIndex, j=lines.length; i<j; i++) {
     // Line 0 should be 'WEBVTT', so skipping i=0
 
     line = vjs.trim(lines[i]); // Trim whitespace and linebreaks
