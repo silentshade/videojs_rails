@@ -11,7 +11,8 @@
 	>
 		<% if options[:sources] %>
 			<%- options[:sources].each do |type, source| %>
-				<source src="<%= source %>" type='video/<%= type %>' />
+                <%- type = [:mp4, :webm].include?(type) ? "video/#{type}" : type.to_s %>
+                <source src="<%= source %>" type='<%= type %>' />
 			<%- end %>
 		<%- end %>
 
